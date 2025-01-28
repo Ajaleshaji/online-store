@@ -11,8 +11,8 @@ const Cart = () => {
     return <h2>Your cart is empty</h2>;
   }
 
-  const handleBuy = () => {
-    navigate("/checkout");
+  const handleBuy = (product) => {
+    navigate("/checkout", { state: { product } }); 
   };
 
   return (
@@ -38,7 +38,7 @@ const Cart = () => {
               </button>
               <button
                 className="buy-btn"
-                onClick={handleBuy}
+                onClick={() => handleBuy(product)}
               >
                 Buy
               </button>

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/title.css";
+
 const Payment = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { formData } = location.state || {};
+  const { formData, product } = location.state || {}; 
 
   const [paymentMethod, setPaymentMethod] = useState("");
 
@@ -17,8 +18,9 @@ const Payment = () => {
       alert("Please select a payment method!");
       return;
     }
-    alert(`Payment Successful using ${paymentMethod}!`);
-    navigate("/order-success"); 
+    navigate("/order-success", {
+      state: { formData, paymentMethod, product }, 
+    });
   };
 
   return (
@@ -30,6 +32,14 @@ const Payment = () => {
       <p><strong>Phone:</strong> {formData?.phone}</p>
       <p><strong>Address:</strong> {formData?.address}</p>
       <p><strong>Pin Code:</strong> {formData?.pinCode}</p>
+
+      <h3>Product Details</h3>
+      <div className="product-details">
+        <img src={product?.image} alt={product?.name} className="product-image" />
+        <p><strong>Name:</strong> {product?.name}</p>
+        <p><strong>Price:</strong> {product?.price}</p>
+        <p><strong>Description:</strong> {product?.description}</p>
+      </div>
 
       <h3>Select Payment Method</h3>
       <div className="payment-method">

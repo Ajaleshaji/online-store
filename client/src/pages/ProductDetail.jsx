@@ -1,6 +1,6 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom"; 
-import { useCart } from "../context/CartContext"; 
+import { useParams, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 import shoes from "../assets/shoes.png";
 import perfume from "../assets/perfume.png";
 import Watch from "../assets/Watch.png";
@@ -39,22 +39,22 @@ const productDetails = [
 ];
 
 const ProductDetail = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { addToCart } = useCart(); 
   const navigate = useNavigate(); 
 
   const product = productDetails.find((p) => p.id === id);
+
   const handleBuy = () => {
-    navigate("/checkout");
+    navigate("/checkout", { state: { product } });
   };
 
   if (!product) {
-    return <h2>Product not found</h2>; 
+    return <h2>Product not found</h2>;
   }
 
   const handleAddToCart = () => {
-    addToCart(product); 
-    
+    addToCart(product);
     navigate("/cart");
   };
 
@@ -69,9 +69,9 @@ const ProductDetail = () => {
           <button className="add-to-cart-btn" onClick={handleAddToCart}>
             Add to Cart
           </button>
-          
-          <button className="buy-btn" 
-                onClick={handleBuy}>Buy</button>
+          <button className="buy-btn" onClick={handleBuy}>
+            Buy
+          </button>
         </div>
       </div>
     </div>

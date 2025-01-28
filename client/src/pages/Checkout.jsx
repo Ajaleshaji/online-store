@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Checkout = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { product } = location.state || {};
+  if (!product) {
+    return <h2>No product selected. Please go back to the cart.</h2>;
+  }
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -10,25 +17,31 @@ const Checkout = () => {
     pinCode: "",
   });
 
-  const navigate = useNavigate();
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/payment", { state: { formData } });
+    navigate("/payment", { state: { formData, product } }); 
   };
 
   return (
     <div className="checkout-container">
       <h1>Checkout</h1>
+      <div className="product-summary">
+        <h3>Product Details</h3>
+        <div className="product-details">
+          <img src={product.image} alt={product.name} className="product-image" />
+          <p><strong>Name:</strong> {product.name}</p>
+          <p><strong>Price:</strong> {product.price}</p>
+          <p><strong>Description:</strong> {product.description}</p>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit} className="checkout-form">
+        <h3>User Details</h3>
         <div className="form-group">
           <label>Username</label>
           <input
@@ -36,6 +49,7 @@ const Checkout = () => {
             name="username"
             value={formData.username}
             onChange={handleInputChange}
+            placeholder="Enter your name"
             required
           />
         </div>
@@ -46,6 +60,7 @@ const Checkout = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
+            placeholder="Enter your email"
             required
           />
         </div>
@@ -56,6 +71,7 @@ const Checkout = () => {
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
+            placeholder="Enter your phone number"
             required
           />
         </div>
@@ -65,6 +81,7 @@ const Checkout = () => {
             name="address"
             value={formData.address}
             onChange={handleInputChange}
+            placeholder="Enter your address"
             required
           />
         </div>
@@ -75,10 +92,13 @@ const Checkout = () => {
             name="pinCode"
             value={formData.pinCode}
             onChange={handleInputChange}
+            placeholder="Enter your pin code"
             required
           />
         </div>
-        <button type="submit" className="submit-btn">OK</button>
+        <button type="submit" className="submit-btn">
+          Proceed to Payment
+        </button>
       </form>
     </div>
   );

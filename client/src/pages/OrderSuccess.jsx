@@ -5,10 +5,16 @@ import "../styles/title.css";
 const OrderSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { formData, paymentMethod, product } = location.state || {}; // Retrieve passed state
-
-  if (!product) {
-    return <h2>Product not found. Please try again.</h2>;
+  const { formData, paymentMethod, product } = location.state || {};
+  if (!formData || !paymentMethod || !product) {
+    return (
+      <div className="order-success-container">
+        <h2>Order information is missing.</h2>
+        <button className="back-to-home-btn" onClick={() => navigate("/mainpage")}>
+          Back to Home
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -16,26 +22,37 @@ const OrderSuccess = () => {
       <h1>Order Successful!</h1>
       <p>Thank you for your purchase! Your order has been placed successfully.</p>
 
-      <h3>Order Summary</h3>
-      <p><strong>Username:</strong> {formData?.username}</p>
-      <p><strong>Email:</strong> {formData?.email}</p>
-      <p><strong>Phone:</strong> {formData?.phone}</p>
-      <p><strong>Address:</strong> {formData?.address}</p>
-      <p><strong>Pin Code:</strong> {formData?.pinCode}</p>
-      <p><strong>Payment Method:</strong> {paymentMethod}</p>
-
-      <h3>Product Details</h3>
-      <div className="product-details">
-        <img src={product?.image} alt={product?.name} className="product-image" />
-        <p><strong>Name:</strong> {product?.name}</p>
-        <p><strong>Price:</strong> {product?.price}</p>
-        <p><strong>Description:</strong> {product?.description}</p>
+      <div className="order-sections">
+        <div>
+          <h2>Order Summary</h2>
+          <p><strong>Username:</strong> {formData?.username}</p>
+          <p><strong>Email:</strong> {formData?.email}</p>
+          <p><strong>Phone:</strong> {formData?.phone}</p>
+          <p><strong>Address:</strong> {formData?.address}</p>
+          <p><strong>Pin Code:</strong> {formData?.pinCode}</p>
+          <p><strong>Payment Method:</strong> {paymentMethod}</p>
+        </div>
+        <div>
+          <h2>Product Details</h2>
+          <div className="product-details">
+            <img src={product?.image} alt={product?.name} className="product-image" />
+            <div>
+              <p><strong>Name:</strong> {product?.name}</p>
+              <p><strong>Price:</strong> {product?.price}</p>
+              <p><strong>Description:</strong> {product?.description}</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2>Delivery Details</h2>
+          <p>Your order will be delivered to the provided address within 5-7 business days.</p>
+        </div>
       </div>
 
-      <h3>Delivery Details</h3>
-      <p>Your order will be delivered to the provided address within 5-7 business days.</p>
-
-      <button className="back-to-home-btn" onClick={() => navigate("/mainpage")}>
+      <button
+        className="back-to-home-btn"
+        onClick={() => navigate("/mainpage")}
+      >
         Back to Home
       </button>
     </div>
