@@ -1,0 +1,39 @@
+[
+    {
+      "name": "Classic Shoes for Men",
+      "price": "Rs 499",
+      "description": "Comfortable and stylish shoes for everyday wear.",
+      "image": "https://images.pexels.com/photos/54334/running-shoe-shoe-brooks-highly-functional-54334.jpeg?cs=srgb&dl=shoe-sneakers-footwear-54334.jpg&fm=jpg"
+    },
+    {
+      "name": "Perfume Green Nature",
+      "price": "Rs 399",
+      "description": "A fresh and floral fragrance for both men and women.",
+      "image": "https://images.prestigeonline.com/wp-content/uploads/sites/6/2021/10/16144759/robs-app-homepage-1024-x-1024-main-pic.jpg"
+    },
+    {
+      "name": "Watch for Men",
+      "price": "Rs 699",
+      "description": "A sleek and elegant watch for daily use.",
+      "image": "https://ae01.alicdn.com/kf/HTB1z3uVKFXXXXcsaXXXq6xXFXXX3/MEGIR-men-s-quartz-watches-stainless-steel-mesh-band-black-watch-chronograph-slim-strap-mens-watch.jpg"
+    },
+    {
+      "name": "Powder for Girls",
+      "price": "Rs 199",
+      "description": "A gentle powder for a soft and smooth finish.",
+      "image": "https://th.bing.com/th/id/OIP.ZIE3bTPL2F959Bk8vqE7MwHaHa?rs=1&pid=ImgDetMain"
+    },
+    {
+      "name": "Leather Wallet",
+      "price": "Rs 299",
+      "description": "A premium quality leather wallet for men.",
+      "image": "https://joojoobs.com/wp-content/uploads/2015/07/Mens-Leather-Wallet-with-Coin-Pocket-003-02.jpg"
+    },
+    {
+      "name": "Sunglasses",
+      "price": "Rs 349",
+      "description": "Stylish sunglasses to protect your eyes from the sun.",
+      "image": "https://i5.walmartimages.com/asr/5298b841-8807-4474-bae6-e487e393c457_1.97324c0169c5c8c1832bce2b655c2344.jpeg"
+    }
+  ]
+  

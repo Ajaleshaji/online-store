@@ -1,42 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import shoes from "../assets/shoes.png";
-import perfume from "../assets/perfume.png";
-import Watch from "../assets/Watch.png";
-import powder from "../assets/powder.png";
-import "../styles/title.css";
 
-const productDetails = [
-  {
-    id: "shoes",
-    name: "Classic Shoes for Men",
-    price: "Rs 499",
-    description: "Comfortable and stylish shoes for everyday wear.",
-    image: shoes,
-  },
-  {
-    id: "perfume",
-    name: "Perfume Green Nature",
-    price: "Rs 399",
-    description: "A fresh and floral fragrance for both men and women.",
-    image: perfume,
-  },
-  {
-    id: "watch",
-    name: "Watch for Men",
-    price: "Rs 699",
-    description: "A sleek and elegant watch for daily use.",
-    image: Watch,
-  },
-  {
-    id: "powder",
-    name: "Powder for Girls",
-    price: "Rs 199",
-    description: "A gentle powder for a soft and smooth finish.",
-    image: powder,
-  },
-];
+import "../styles/title.css";
 
 const ProductList = () => {
   const { addToCart } = useCart();

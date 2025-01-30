@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../styles/title.css";
 import cart from "../assets/cart.png";
 import Account from "../assets/Account.png";
-import shoes from "../assets/shoes.png";
-import perfume from "../assets/perfume.png";
-import Watch from "../assets/Watch.png";
-import powder from "../assets/powder.png";
 
 const Mainpage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [products, setProducts] = useState([]);
 
-  const products = [
-    { id: 1, name: "Classic Shoes for Men", price: "Rs 499", image: shoes, route: "/product/shoes" },
-    { id: 2, name: "Perfume Green Nature", price: "Rs 399", image: perfume, route: "/product/perfume" },
-    { id: 3, name: "Watch for Men", price: "Rs 699", image: Watch, route: "/product/watch" },
-    { id: 4, name: "Powder for Girls", price: "Rs 199", image: powder, route: "/product/powder" },
-  ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/mainpage");
+        const data = await response.json();
+        console.log(data); 
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []); 
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
@@ -39,8 +44,10 @@ const Mainpage = () => {
             </Link>
           </span>
           <span className="myaccount">
-            <img className="accountimage" src={Account} alt="Account" />
-            My Account
+            <Link to="/my-account" className="myaccount">
+              <img className="accountimage" src={Account} alt="Account" />
+              My Account
+            </Link>
           </span>
         </div>
       </div>
@@ -63,7 +70,11 @@ const Mainpage = () => {
         <div className="skills-grid">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <Link to={product.route} className="box" key={product.id}>
+              <Link
+                to={`/product/${product._id}`}
+                className="box"
+                key={product._id}
+              >
                 <img className="photos" src={product.image} alt={product.name} />
                 <h3>{product.name}</h3>
                 <h4>{product.price}</h4>

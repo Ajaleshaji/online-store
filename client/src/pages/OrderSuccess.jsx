@@ -1,16 +1,17 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../styles/title.css";
+import "../styles/OrderSuccess.css";
 
 const OrderSuccess = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { formData, paymentMethod, product } = location.state || {};
+  
   if (!formData || !paymentMethod || !product) {
     return (
-      <div className="order-success-container">
+      <div className="order-success-wrapper">
         <h2>Order information is missing.</h2>
-        <button className="back-to-home-btn" onClick={() => navigate("/mainpage")}>
+        <button className="home-button" onClick={() => navigate("/mainpage")}>
           Back to Home
         </button>
       </div>
@@ -18,13 +19,13 @@ const OrderSuccess = () => {
   }
 
   return (
-    <div className="order-success-container">
+    <div className="order-success-wrapper">
       <h1>Order Successful!</h1>
       <p>Thank you for your purchase! Your order has been placed successfully.</p>
 
-      <div className="order-sections">
+      <div className="order-details-container">
         <div>
-          <h2>Order Summary</h2>
+          <h2>Order Overview</h2>
           <p><strong>Username:</strong> {formData?.username}</p>
           <p><strong>Email:</strong> {formData?.email}</p>
           <p><strong>Phone:</strong> {formData?.phone}</p>
@@ -33,24 +34,24 @@ const OrderSuccess = () => {
           <p><strong>Payment Method:</strong> {paymentMethod}</p>
         </div>
         <div>
-          <h2>Product Details</h2>
-          <div className="product-details">
-            <img src={product?.image} alt={product?.name} className="product-image" />
+          <h2>Item Details</h2>
+          <div className="product-info">
+            <img src={product?.image} alt={product?.name} className="item-image" />
             <div>
-              <p><strong>Name:</strong> {product?.name}</p>
+              <p><strong>Product Name:</strong> {product?.name}</p>
               <p><strong>Price:</strong> {product?.price}</p>
               <p><strong>Description:</strong> {product?.description}</p>
             </div>
           </div>
         </div>
         <div>
-          <h2>Delivery Details</h2>
+          <h2>Shipping Information</h2>
           <p>Your order will be delivered to the provided address within 5-7 business days.</p>
         </div>
       </div>
 
       <button
-        className="back-to-home-btn"
+        className="home-button"
         onClick={() => navigate("/mainpage")}
       >
         Back to Home
