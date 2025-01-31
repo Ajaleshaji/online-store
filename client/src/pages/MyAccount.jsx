@@ -16,7 +16,7 @@ const MyAccount = () => {
     }
 
     axios
-      .get("http://localhost:5000/user", {
+      .get("https://online-store-daza.onrender.com/user", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

@@ -10,7 +10,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/product/${id}`);
+        const response = await fetch(`https://online-store-daza.onrender.com/product/${id}`);
         const data = await response.json();
         setProduct(data); 
       } catch (error) {
@@ -33,7 +33,7 @@ const ProductDetail = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/add-to-cart", {
+      const response = await fetch("https://online-store-daza.onrender.com/add-to-cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

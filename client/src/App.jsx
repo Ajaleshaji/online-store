@@ -22,7 +22,7 @@ function App() {
     if (token) {
       axios
         .post(
-          "http://localhost:5000/verify-token",
+          "https://online-store-daza.onrender.com/verify-token",
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         )

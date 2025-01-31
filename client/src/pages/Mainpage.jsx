@@ -11,7 +11,7 @@ const Mainpage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/mainpage");
+        const response = await fetch("https://online-store-daza.onrender.com/mainpage");
         const data = await response.json();
         console.log(data); 
         setProducts(data);

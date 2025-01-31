@@ -16,7 +16,7 @@ const Cart = () => {
     if (!userId) return;
 
     try {
-      const { data } = await axios.get(`http://localhost:5000/get-cart/${userId}`);
+      const { data } = await axios.get(`https://online-store-daza.onrender.com/get-cart/${userId}`);
       setCart(data.cart || []);
     } catch (error) {
       console.error("Error fetching cart:", error.response?.data?.message || error.message);
@@ -40,7 +40,7 @@ const Cart = () => {
   const removeFromCart = async (productId) => {
     try {
       console.log("remove from cart : " , productId)
-      const { data } = await axios.get(`http://localhost:5000/remove-from-cart/${userId}/${noOfDelets === 0 ? productId._id : productId}`);
+      const { data } = await axios.get(`https://online-store-daza.onrender.com/remove-from-cart/${userId}/${noOfDelets === 0 ? productId._id : productId}`);
       setNoOfDelets(noOfDelets + 1)
       console.log(data)
       setCart(data.cart || []);
