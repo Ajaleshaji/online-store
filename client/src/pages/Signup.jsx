@@ -20,7 +20,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://online-store-daza.onrender.com/signup", formData);
+      const response = await axios.post("http://localhost:5000/signup", formData);
       alert(response.data.message); 
       navigate("/login"); 
     } catch (error) {

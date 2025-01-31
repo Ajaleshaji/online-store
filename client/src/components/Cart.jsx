@@ -69,9 +69,6 @@ const Cart = () => {
           </div>
         </div>
       ))}
-      <div className="total">
-        <h3>Total: Rs {cart.reduce((acc, product) => acc + product.price, 0)}</h3>
-      </div>
     </div>
   );
 };
