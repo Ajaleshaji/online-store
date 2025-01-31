@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useCart } from "../context/CartContext";
 import "../styles/title.css";
 
 const ProductDetail = () => {
   const { id } = useParams(); 
   const [product, setProduct] = useState(null);
-  const { addToCart } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,10 +24,33 @@ const ProductDetail = () => {
   if (!product) {
     return <h2>Product not found</h2>;
   }
+  const handleAddToCart = async () => {
+    const userId = "679c5a48753eb7a09ec20f10" 
 
-  const handleAddToCart = () => {
-    addToCart(product);
-    navigate("/cart");
+    if (!userId) {
+      alert("Please log in to add items to the cart.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/add-to-cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, product }),
+      });
+ 
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/mainpage")
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
   const handleBuy = () => {
@@ -41,7 +62,7 @@ const ProductDetail = () => {
       <img src={product.image} alt={product.name} className="product-image" />
       <div className="product-details">
         <h2>{product.name}</h2>
-        <h3>{product.price}</h3>
+        <h3>Rs {product.price}</h3>
         <p>{product.description}</p>
         <div className="button-container">
           <button className="add-to-cart-btn" onClick={handleAddToCart}>

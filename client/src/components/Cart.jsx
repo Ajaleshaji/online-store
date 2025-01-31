@@ -1,18 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
-import { useCart } from "../context/CartContext";
 import "../styles/title.css";
+import { useCallback } from "react";
+import axios from "axios"
 
 const Cart = () => {
-  const { cart, removeFromCart } = useCart();
   const navigate = useNavigate();
+  const [cart, setCart] = useState([]);
+  const [loading , setLoading] = useState(true)
+  const [noOfDelets, setNoOfDelets] = useState(0)
+
+  const userId = "679c5a48753eb7a09ec20f10" 
+
+  const fetchCart = useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      const { data } = await axios.get(`http://localhost:5000/get-cart/${userId}`);
+      setCart(data.cart || []);
+    } catch (error) {
+      console.error("Error fetching cart:", error.response?.data?.message || error.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]); 
 
   if (cart.length === 0) {
     return <h2>Your cart is empty</h2>;
   }
 
   const handleBuy = (product) => {
-    navigate("/checkout", { state: { product } }); 
+    navigate("/checkout", { state: { product } });
+  };
+
+  const removeFromCart = async (productId) => {
+    try {
+      console.log("remove from cart : " , productId)
+      const { data } = await axios.get(`http://localhost:5000/remove-from-cart/${userId}/${noOfDelets === 0 ? productId._id : productId}`);
+      setNoOfDelets(noOfDelets + 1)
+      console.log(data)
+      setCart(data.cart || []);
+    } catch (error) {
+      console.error("Error removing product:", error.response?.data?.message || error.message);
+    }
   };
 
   return (
@@ -20,26 +54,15 @@ const Cart = () => {
       <h1>Your Cart</h1>
       {cart.map((product, index) => (
         <div key={index} className="product-card">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="product-image"
-          />
+          <img src={product.image} alt={product.name} className="product-image" />
           <div className="product-details">
             <h2>{product.name}</h2>
-            <h3>{product.price}</h3>
-            
+            <h3>Rs {product.price}</h3>
             <div className="button-container">
-              <button
-                className="remove-btn"
-                onClick={() => removeFromCart(product.id)}
-              >
+              <button className="remove-btn" onClick={() => removeFromCart(product.productId)}>
                 Remove
               </button>
-              <button
-                className="buy-btn"
-                onClick={() => handleBuy(product)}
-              >
+              <button className="buy-btn" onClick={() => handleBuy(product)}>
                 Buy
               </button>
             </div>
@@ -47,7 +70,7 @@ const Cart = () => {
         </div>
       ))}
       <div className="total">
-        <h3>Total: Rs {cart.reduce((acc, product) => acc + parseFloat(product.price.replace("Rs ", "")), 0)}</h3>
+        <h3>Total: Rs {cart.reduce((acc, product) => acc + product.price, 0)}</h3>
       </div>
     </div>
   );

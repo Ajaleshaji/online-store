@@ -110,18 +110,90 @@ app.get("/product/:id", async (req, res) => {
   }
 });
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/mydb", {
-  useNewUrlParser: true,
+app.post("/add-to-cart", async (req, res) => {
+  console.log(req.body)
+  const { userId, product } = req.body;
+
+  try {
+    const user = await UserModel.findById(userId);
+    console.log(user)
+    if (!user) {
+      console.log("user not found")
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    console.log("before")
+  
+    const existingItem = user.cart.find((item) =>
+      item.productId.equals(product._id)
+    );  
+    console.log(existingItem)
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      user.cart.push({
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        image : product.image
+      }); 
+    }
+    console.log(user)
+    const dbResponse = await user.save();
+    res.status(200).json({ message: "Product added to cart", cart: user.cart });
+  } catch (error) {
+    res.status(500).json({ message: "Error adding to cart", error });
+  }
+});
+
+app.get("/get-cart/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await UserModel.findById(userId).populate("cart.productId");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ cart: user.cart });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching cart", error });
+  }
+});
+app.get("/remove-from-cart/:userId/:productId", async (req, res) => {
+  const { userId, productId } = req.params;
+  console.log(userId , productId)
+  console.log(req.params)
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.cart = user.cart.filter((item) => !item.productId.equals(productId));
+    await user.save();
+
+    res.status(200).json({ message: "Product removed from cart", cart: user.cart });
+  } catch (error) {
+    res.status(500).json({ message: "Error removing product", error: error.message });
+  }
+});
+
+
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true, 
   useUnifiedTopology: true,
 })
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch((error) => {
-    console.error("❌ MongoDB connection error:", error);
-    process.exit(1);
-  });
+.then(() => console.log(" MongoDB Connected"))
+.catch((error) => {
+  console.error(" MongoDB connection error:", error);
+  process.exit(1);
+});
+
 
   
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });
