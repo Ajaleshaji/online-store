@@ -10,7 +10,7 @@ const Cart = () => {
   const [loading , setLoading] = useState(true)
   const [noOfDelets, setNoOfDelets] = useState(0)
 
-  const userId = "679c5a48753eb7a09ec20f10" 
+  const userId = "679c5a48753eb7a09ec20f10"
 
   const fetchCart = useCallback(async () => {
     if (!userId) return;
